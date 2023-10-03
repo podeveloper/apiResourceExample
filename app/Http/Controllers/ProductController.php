@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
@@ -13,9 +15,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() : JsonResource
     {
-        //
+        $products = Product::with('category')->get();
+        return ProductResource::collection($products);
     }
 
     /**
